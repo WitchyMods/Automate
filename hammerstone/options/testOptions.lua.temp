@@ -1,0 +1,67 @@
+return {
+	configKey = "witchy.automate.tests",
+	display_name = "Tests", 
+	listener = function(optionName, newValue) mj:log("Option ", optionName, " was changed to ", newValue) end,
+	options = {
+		popUpButtons = {
+			order = 1,
+			type = "group",
+			label = "PopUpButtons",
+			options = {
+				testChoice = {
+					order = 1,
+					type = "choice", 
+					label = "Choice",
+					items = {
+						{ key = "cat", text = "A cat"},
+						{ key = "dog", text = "A dog"},
+						{ key = "mouse", text = "A mouse"},
+					}
+				}, 
+				testChoiceWithDefault = {
+					order = 2,
+					type = "choice", 
+					label = "Choice with default", 
+					default_value = "dog",
+					items = {
+						{ key = "cat", text = "A cat"},
+						{ key = "dog", text = "A dog"},
+						{ key = "mouse", text = "A mouse"},
+					}
+				},
+				testChoiceSorted = {
+					order = 2,
+					type = "choice", 
+					label = "Choice sorted", 
+					sorted = true,
+					items = {
+						{ key = "zebra", text = "A zebra"},
+						{ key = "dog", text = "A dog"},
+						{ key = "cat", text = "A cat"},
+						{ key = "mouse", text = "A mouse"},
+					}
+				},
+				testChoiceWithObjects = {
+					order = 1,
+					type = "choice", 
+					label = "Choice with game objects",
+					items = {
+						{ key = "apple", text = "apple", object_type = "apple"},
+						{ key = "banana", text = "banana", object_type = "banana"},
+						{ key = "coconut", text = "coconut", object_type = "coconut"},
+					}
+				}, 
+				testChoiceWithIcons = {
+					order = 1,
+					type = "choice", 
+					label = "Choice with icons",
+					items = {
+						{ key = "t", text = "tribe", icon = "icon_tribe2", materials = { default = "red" } },
+						{ key = "h", text = "happiness", icon = "icon_happy"},
+						{ key = "i", text = "idea", icon = "icon_idea"},
+					}
+				}, 
+			}
+		}
+	}
+}

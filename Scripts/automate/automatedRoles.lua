@@ -2,7 +2,6 @@
 --- Author: Witchy
 
 local skill = mjrequire "common/skill"
-local research = mjrequire "common/research"
 local sapienConstants = mjrequire "common/sapienConstants"
 local sapienTrait = mjrequire "common/sapienTrait"
 
