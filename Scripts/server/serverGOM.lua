@@ -8,8 +8,8 @@ local serverWorld = nil
 
 local serverGOM = {}
 
-function serverGOM:setServerWorld(super, serverWorld_, serverTribe_)
-    super(self, serverWorld_, serverTribe_)
+function serverGOM:setServerWorld(super, serverWorld_, serverTribe_, serverTribeAIPlayer_, serverDestination_)
+    super(self, serverWorld_, serverTribe_, serverTribeAIPlayer_, serverDestination_)
 
     serverWorld = serverWorld_
 end

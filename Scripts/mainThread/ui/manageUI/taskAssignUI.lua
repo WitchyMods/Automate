@@ -12,11 +12,17 @@ local automatedRolesUI = mjrequire "automate/automatedRolesUI"
 local automatedRoles = mjrequire "automate/automatedRoles"
 local taskTreeUI = mjrequire "mainThread/ui/manageUI/taskTreeUI"
 
+local modOptionsManager = mjrequire "hammerstone/options/modOptionsManager"
+
+
 local taskAssignUI = {}
 
 local mainView = nil
 local automatedView = nil
 local skillTypeIndex = nil
+
+local automateButtonMainView = nil
+local automateButtonAutoView = nil
 
 function taskAssignUI:init(super, roleUI_, gameUI_, world_, manageUI_, hubUI_, contentView)
 
@@ -54,20 +60,33 @@ function taskAssignUI:init(super, roleUI_, gameUI_, world_, manageUI_, hubUI_, c
             taskTreeUI:hide()
             automatedRolesUI:show(skillTypeIndex)
         end)
+		return automateButton
     end
 
-    addAutomateButton(mainView)
-    addAutomateButton(automatedView)
+    automateButtonMainView = addAutomateButton(mainView)
+    automateButtonAutoView = addAutomateButton(automatedView)
 end
 
 function taskAssignUI:show(super, skillTypeIndex_, prevSelectedPriority, prevSelectedScrollIndex)
     skillTypeIndex = skillTypeIndex_
     super(self, skillTypeIndex_, prevSelectedPriority, prevSelectedScrollIndex)
-
-    local skillSetting = automatedRoles:getSkillSettings()[skillTypeIndex]
 	
-    mainView.hidden = skillSetting.automationEnabled
-    automatedView.hidden = not skillSetting.automationEnabled
+	local overrideAutoRole = modOptionsManager:getModOptionsValue("witchyAutomate", "overrideAutoRole")
+
+	if overrideAutoRole then
+		local skillSetting = automatedRoles:getSkillSettings()[skillTypeIndex]
+		
+		mainView.hidden = skillSetting.automationEnabled
+		automatedView.hidden = not skillSetting.automationEnabled
+		
+		automateButtonMainView.hidden = false
+		automateButtonAutoView = false
+	else
+		automateButtonMainView.hidden = true
+		automateButtonAutoView = true
+		mainView.hidden = false
+		automatedView.hidden = true
+	end
 end
 
 function taskAssignUI:hide(super)

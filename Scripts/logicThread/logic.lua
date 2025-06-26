@@ -3,8 +3,8 @@ local shadow = mjrequire "hammerstone/utils/shadow"
 
 local logic = {}
 
-function logic:setBridge(super, bridge_)
-    super(self, bridge_)
+function logic:setBridge(super, bridge_, serverPrivateSharedClientState_)
+    super(self, bridge_, serverPrivateSharedClientState_)
 
     bridge_:registerLogicThreadNetFunction("nonFollowerApproached", function(nomadID)
         bridge_:callMainThreadFunction("nonFollowerApproached", nomadID)

@@ -1,9 +1,26 @@
 local options = {
 	configKey = "witchyAutomate",
-	listener = function(optionKey, newValue) mj:log("WITCHY!! option changed: ", optionKey, " newValue=", newValue) end,
+	listener = function(messages) 
+				for i,message in ipairs(messages) do
+					if message.optionKey == "overrideAutoRole" then
+						mjrequire("automate/automate"):overrideAutomatedRolesOptionChanged(message.value)
+					end
+			    end
+			end,
 	options = {
-		autoRecruit = {
+		automateRoles = {
 			order = 1,
+			type = "group",
+			options = {
+				overrideAutoRole = {
+					order = 1,
+					type = "boolean",
+					default_value = false
+				}
+			}
+		},
+		autoRecruit = {
+			order = 2,
 			type = "group", 
 			options = {
 				enableAutoRecruit = {
@@ -18,11 +35,16 @@ local options = {
 					max = 200,
 					default_value = 200,
 					enable_on = "enableAutoRecruit"
+				}, 
+				prioritizeAutoRecruit = {
+					order = 3,
+					type = "boolean", 
+					default_value = true
 				}
 			}
 		},
 		autoFertilize = {
-			order = 2,
+			order = 3,
 			type = "group",
 			options = {
 				enableAutoFertilize = {

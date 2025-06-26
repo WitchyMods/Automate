@@ -5,6 +5,8 @@ local skill = mjrequire "common/skill"
 local sapienConstants = mjrequire "common/sapienConstants"
 local sapienTrait = mjrequire "common/sapienTrait"
 
+local modOptionsManager = mjrequire "hammerstone/options/modOptionsManager"
+
 local playerSapiens = nil
 local world = nil
 
@@ -346,13 +348,16 @@ end
 		
 function automatedRoles:reassignAll()
 	--mj:log("automatedRoles:reassignAll - start")
+	local overrideAutoRoleEnabled = modOptionsManager:getModOptionsValue("witchyAutomate", "overrideAutoRole")
 	
-	loadSkillSettings()
-	allFollowers = playerSapiens:getFollowerInfos()
-	tempRoles = {}
-	
-	fillTempRoles()
-	processTempRoles()	
+	if overrideAutoRoleEnabled then
+		loadSkillSettings()
+		allFollowers = playerSapiens:getFollowerInfos()
+		tempRoles = {}
+		
+		fillTempRoles()
+		processTempRoles()	
+	end
 		
 	--mj:log("automatedRoles:reassignAll - end")
 end
