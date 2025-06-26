@@ -5,7 +5,6 @@ local vec4 = mjm.vec4
 
 local model = mjrequire "common/model"
 local material = mjrequire "common/material"
-local locale = mjrequire "common/locale"
 
 local skill = mjrequire "common/skill"
 local sapienConstants = mjrequire "common/sapienConstants"
@@ -18,7 +17,7 @@ local uiSlider = mjrequire "mainThread/ui/uiCommon/uiSlider"
 
 local playerSapiens = mjrequire "mainThread/playerSapiens"
 
-local automatedRoles = mjrequire "automatedRoles/automatedRoles"
+local automatedRoles = mjrequire "automate/automatedRoles"
 
 local automatedRolesUI = {}
 
@@ -39,15 +38,13 @@ local stagesScrollView = nil
 local stagesScrollViewRows = {}
 local absToggle = nil 
 local prcToggle = nil 
-local minValueSlider = nil
-local maxValueSlider = nil 
-local minValueText = nil 
-local maxValueText = nil 
+local minSliderText = nil
+local maxSliderText = nil 
+local minSlider = nil 
+local maxSlider = nil 
 
 local saveButton = nil 
 local skillSetting = nil 
-
-local stagesScrollViewHasFocus = false
 
 local followersCount = 0
 
@@ -371,7 +368,7 @@ function automatedRolesUI:show(skillTypeIndex_)
 	stagesScrollViewRows = {}
 	
 	for i, stage in ipairs(sapienConstants.lifeStages) do 
-		rowInfo = {
+		local rowInfo = {
 			index = stage.index, 
 			text = stage.name, 
 			enabled = true, 
@@ -412,7 +409,7 @@ function automatedRolesUI:show(skillTypeIndex_)
 		toggleText.color = mj.textColor
 		
 		if not row.enabled then
-			uiStandardButton:setDisabled(toggleButton, not enabled)
+			uiStandardButton:setDisabled(toggleButton, not row.enabled)
 			toggleText.color = vec4(1.0,1.0,1.0,0.5)
 		end
 		

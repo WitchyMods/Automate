@@ -1,28 +1,22 @@
-local mod = {
-    loadOrder = 2,
-}
 
-local automatedRoles = mjrequire "automatedRoles/automatedRoles"
+local shadow = mjrequire "hammerstone/utils/shadow"
+local automatedRoles = mjrequire "automate/automatedRoles"
 
-function mod:onload(playerSapiens)
-	local super_skillPriorityListChanged = playerSapiens.skillPriorityListChanged
-	
-	playerSapiens.skillPriorityListChanged = function(playerSapiens_)
-		super_skillPriorityListChanged(playerSapiens_)
-		automatedRoles:reassignAll()
-	end
-	
-	local super_followersAdded = playerSapiens.followersAdded
-	playerSapiens.followersAdded = function(playerSapiens_, addedInfos)
-		super_followersAdded(playerSapiens_, addedInfos)
-		automatedRoles:reassignAll()
-	end
-	
-	local super_followersRemoved = playerSapiens.followersRemoved
-	playerSapiens.followersRemoved = function(playerSapiens_, removedIDs)
-		super_followersRemoved(playerSapiens_, removedIDs)
-		automatedRoles:reassignAll()
-	end
+local playerSapiens = {}
+
+function playerSapiens:skillPriorityListChanged(super)
+	super(self)
+	automatedRoles:reassignAll()
 end
 
-return mod
+function playerSapiens:followersAdded(super, addedInfos)
+	super(self, addedInfos)
+	automatedRoles:reassignAll()
+end
+
+function playerSapiens:followersRemoved(super, removedIDs)
+	super(self, removedIDs)
+	automatedRoles:reassignAll()
+end
+
+return shadow:shadow(playerSapiens)

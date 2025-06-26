@@ -1,17 +1,27 @@
-local mod = {
-    loadOrder = 1,
-}
 
-local automatedRoles = mjrequire "automatedRoles/automatedRoles"
-local playerSapiens = mjrequire "mainThread/playerSapiens"
+local shadow = mjrequire "hammerstone/utils/shadow"
 
-function mod:onload(logicInterface)
-	local super_init = logicInterface.init
-	
-	logicInterface.init = function(logicInterface_, world_, localPlayer_)
-		super_init(logicInterface_, world_, localPlayer_)
-		automatedRoles:init(world_, playerSapiens)
-	end
+local automate = mjrequire "automate/automate"
+
+local logicInterface = {}
+
+function logicInterface:init(super, world, localPlayer)
+	super(self, world, localPlayer)
+	automate:init(world, self)
 end
 
-return mod
+function logicInterface:setBridge(super, bridge_)
+	super(self, bridge_)
+
+	local bridge = bridge_
+
+	bridge:registerMainThreadFunction("nonFollowerApproached", function(nomadID)
+        automate:nonFollowerApproached(nomadID)
+    end)
+
+	bridge:registerMainThreadFunction("soilQualityDropped", function(vertID)
+        automate:soilQualityDropped(vertID)
+    end)
+end
+
+return shadow:shadow(logicInterface)
